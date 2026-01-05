@@ -352,17 +352,19 @@
             font-size: 16px;
             color: #fff;
             padding: 15px 8px;
-            background: rgba(255, 69, 0, 0.9);
+            background: rgba(255, 69, 0, 0.8);
+            /* 默认背景，会被JS覆盖 */
             border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.5);
             white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             z-index: 6;
             writing-mode: vertical-rl;
             text-orientation: upright;
             letter-spacing: 2px;
             line-height: 1.4;
+            font-weight: 500;
         }
 
         /* 喷发动画通过JavaScript动态设置 */
@@ -421,131 +423,118 @@
     <script>
         // 原始文本数据
         const textData = `权限个性化配置改造（五期迭代）
-  - 一期（2月）：完成个性化配置基础架构设计，实现租户维度配置管理
-  - 二期（2月）：完善角色管理功能，支持权限树查询和权限点修改
-  - 三期（3月）：新增租户维度配置表（source_config、source_access），支持版本标识和权限集自定义
-  - 四期（3月）：优化权限缓存机制，提升权限查询性能
-  - 五期（4月）：完成权限数据迁移脚本，支持租户自定义角色迁移、版本设置、系统角色授权关系迁移
-  技术亮点：
-  - 设计了灵活的权限配置体系，支持租户级别的权限个性化定制
-  - 实现了权限数据的平滑迁移，确保业务连续性
-  - 优化了权限查询性能，通过缓存机制减少数据库压力
+  - 一期（2月）：
+  - 二期（2月）：
+  - 三期（3月）：
+  - 四期（3月）：
+  - 五期（4月）：
 权限系统优化
-  - 权限缓存优化：去除权限生效缓存，优化缓存策略
-  - 权限清理：完成权限数据清理，删除系统角色
-  - 权限分享：实现权限分享功能
-  - 权限操作记录完善：完善权限操作日志记录
+  - 权限缓存优化
+  - 权限清理
+  - 权限分享
+  - 权限操作记录完善
     
 支付系统升级
-- 分期支付接入（11月）：完成Klarna分期支付通道接入，支持海外用户分期购买
-- 0元购及履约（7月）：实现0元订单支付成功后的自动履约流程
-- 苹果内购转钱海支付（5月）：完成支付渠道切换
+- 分期支付接入（11月）
+- 0元购及履约（7月）
+- 苹果内购转钱海支付（5月）
   
 订单系统优化
-- 订单对接贝壳开票系统（6月）：
-  - 实现订单发票信息自动同步到贝壳开票系统
-  - 新增发票历史快照表，支持发票冲销和重新开票
-  - 支持人工开票和接口开票两种方式
-- 订单加销售人员（7月）：订单关联销售人员，支持销售业绩统计
-- 订单下单页优化（8月）：优化订单创建流程，提升用户体验
-- 订单折扣兑换逻辑优化（8月）：完善折扣码兑换机制
+- 订单对接贝壳开票系统（6月）
+- 订单加销售人员（7月）
+- 订单下单页优化（8月）
+- 订单折扣兑换逻辑优化（8月）
   
 礼品卡系统
-- 礼品卡兑换页优化（8月）：新增礼品卡皮肤功能，优化兑换体验
-- 批量修改礼品卡的折扣金额（11月）：支持批量操作，提升运营效率
-- 国内礼品卡支持（7月）：国内支持礼品卡（折扣码）兑换SKU
+- 礼品卡兑换页优化（8月）
+- 批量修改礼品卡的折扣金额（11月）
+- 国内礼品卡支持（7月）
   
 其他交易功能
-- 首单优惠（7月）：实现首单优惠功能
-- 管理后台费用中心优化（7月）：优化费用中心展示，增加复购引导
+- 首单优惠（7月）
+- 管理后台费用中心优化（7月）
   
 
 微信登录
-- APP接入微信登录（12月）：完成APP端微信登录功能开发
-- 微信第三方账号绑定（10月）：支持微信账号绑定和解绑
+- APP接入微信登录（12月）
+- 微信第三方账号绑定（10月）
   
 其他登录方式
-- passport登录（6月）：完成passport登录对接
-- 三方登录国家码（11月）：优化第三方登录的国家码处理
+- passport登录（6月）
+- 三方登录国家码（11月）
   
 
 
 VR空间审核
 - VR空间审核流程（12月）：
-  - 实现VR空间内容审核功能
-  - 支持审核状态筛选和审核操作
-  - 优化VR详情页，增加多媒体数据展示
-  - 实现相关推荐功能
+
     
 VR收藏与标签
-- VR收藏（2月、3月）：实现VR收藏功能，支持收藏列表查询
-- 标签优化（9月）：跳转类标签同步新标签库并增加动效
-- 标签搜索（3月）：实现标签搜索功能
-- 标签体系优化（2月）：优化标签数据结构和管理逻辑
-- 全景图标签（3月）：支持全景图标签功能
+- VR收藏（2月、3月）
+- 标签优化（9月）
+- 标签搜索（3月）
+- 标签体系优化（2月）
+- 全景图标签（3月）
   
 VR带看功能
-- vrc带看改造（9月）：完成一起看空间（带看）功能改造
-- saas带看（9月）：支持SaaS场景下的带看功能
-- 途家带看（9月）：完成途家带看对接
-- 带看梳理（8月）：梳理带看业务流程
+- vrc带看改造（9月）
+- saas带看（9月）
+- 途家带看（9月）
+- 带看梳理（8月）
   
 其他VR功能
-- VR基础数据接口活跃（9月）：增加是否活跃校验配置
-- vr作品集加入sitemap（6月）：优化SEO
+- VR基础数据接口活跃（9月）
+- vr作品集加入sitemap（6月）
   
 
 
 商品数字化
-- 商品ID数字化（10月）：完成商品详情接口数字ID优化
-- 商品增加设备（11月）：商品支持增加设备信息（庞加莱R1、观复等）
-- 圣象商品增加字段（3月）：圣象商品增加型号筛选接口
+- 商品ID数字化（10月）
+- 商品增加设备（11月）
+- 圣象商品增加字段（3月）
   
 商品履约
-- 商品履约（4月）：完成版本+权限+个性化配置改造下的履约逻辑更新
-- 商品增加发货类型人工服务（9月）：支持人工服务类型商品
+- 商品履约（4月）
+- 商品增加发货类型人工服务（9月）
   
 商城优化
-- 商城后端字段对齐钱海（12月）：商品系统字段长度校验对齐钱海
-- 商品履约优化（4月）：优化履约流程
+- 商城后端字段对齐钱海（12月）
+- 商品履约优化（4月）
   
 
 
 云影系统
-- 固件升级管理（5月）：支持固件升级功能，包括APP后端和云影后端
-- APP发版管理（3月、4月）：支持APP发版管理和客户端内更新
-- 云影增加白名单（5月）：支持白名单控制
-- 云影操作日志（5月）：完善操作日志记录
-- 云影线下订单支持取消关闭（7月）：支持线下订单取消和关闭
-- 云影对公转账问题（12月）：解决对公转账相关问题
+- 固件升级管理（5月）
+- APP发版管理（3月、4月）
+- 云影增加白名单（5月）
+- 云影操作日志（5月）
+- 云影线下订单支持取消关闭（7月）
+- 云影对公转账问题（12月）
   
 海外业务
-- 海外伽罗华邮件召回（11月）：
-  - 实现用户行为统计表（user_galois_action_statistics）
-  - 完成取数筛选机制和EDM自动发送功能
-- 海外测试环境搭建（8月）：完成海外测试环境配置
-- 海外监控报警（5月）：配置海外域名监控报警
-- 海外&阿里云业务系统清理（5月）：完成系统清理工作
+- 海外伽罗华邮件召回（11月）
+
+- 海外测试环境搭建（8月）
+- 海外监控报警（5月）
+- 海外&阿里云业务系统清理（5月）
   
 营销与增长
-- 归因数据回传（12月）：完成华为商城、抖音等平台的归因数据回传
-- 定制邀请链接（9月）：支持定制邀请链接用于推广活动
-- 邀请链接邮件（9月）：实现邀请链接邮件发送功能
+- 归因数据回传（12月）
+- 定制邀请链接（9月）
+- 邀请链接邮件（9月）
   
 第三方对接
-- 丽兹行对接（10月、11月）：
-  - 完成房源信息接口开发
-  - VR链接增加参数透传
-- zoho对接（12月）：完成zoho单点登录对接
-- shopify对接（7月、8月）：完成shopify相关功能对接
+- 丽兹行对接（10月、11月）
+- zoho对接（12月）
+- shopify对接（7月、8月）
   
 其他功能
-- 独家代理（5月、6月）：实现独家代理功能，支持代理资源分配
-- 楼盘字典接口增加缓存（4月）：优化接口性能
-- 帮助中心搜索（11月）：新增动态模板，支持帮助中心电子书加精列表
-- 文章页面新增翻页功能（8月）：优化文章浏览体验
-- 客户列表导出（10月）：支持客户列表导出功能
-- 子客户列表支持多个（10月）：支持多页显示`;
+- 独家代理（5月、6月）
+- 楼盘字典接口增加缓存（4月）
+- 帮助中心搜索（11月）
+- 文章页面新增翻页功能（8月）
+- 客户列表导出（10月）
+- 子客户列表支持多个（10月）`;
 
         // 解析文本数据
         function parseData(text) {
@@ -634,6 +623,69 @@ VR带看功能
             };
         };
 
+        // 记录已占用的位置，避免重叠
+        const occupiedPositions = [];
+
+        // 检查位置是否与已有位置重叠
+        function isPositionOverlapping(x, y, occupiedPositions, minDistance = 100) {
+            for (let pos of occupiedPositions) {
+                const distance = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
+                if (distance < minDistance) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 生成不重叠的随机位置
+        function generateNonOverlappingPosition(occupiedPositions, maxAttempts = 50) {
+            const margin = 80;
+            const volcano = getVolcanoPosition();
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // 避免在火山口附近
+            const volcanoMargin = 200;
+
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                // 随机生成位置（屏幕各处）
+                let x = margin + Math.random() * (screenWidth - margin * 2);
+                let y = margin + Math.random() * (screenHeight - margin * 2);
+
+                // 避免在火山口附近
+                const distanceFromVolcano = Math.sqrt(
+                    Math.pow(x - volcano.x, 2) + Math.pow(y - volcano.y, 2)
+                );
+
+                if (distanceFromVolcano < volcanoMargin) {
+                    continue; // 太靠近火山，重新生成
+                }
+
+                // 检查是否重叠
+                if (!isPositionOverlapping(x, y, occupiedPositions)) {
+                    // 记录这个位置
+                    occupiedPositions.push({ x, y });
+                    return { x, y };
+                }
+            }
+
+            // 如果尝试多次都重叠，返回一个随机位置（允许重叠）
+            const x = margin + Math.random() * (screenWidth - margin * 2);
+            const y = margin + Math.random() * (screenHeight - margin * 2);
+            occupiedPositions.push({ x, y });
+            return { x, y };
+        }
+
+        // 清理过期的位置记录（当元素淡出后）
+        function removeOccupiedPosition(x, y) {
+            const index = occupiedPositions.findIndex(
+                pos => Math.abs(pos.x - x) < 1 && Math.abs(pos.y - y) < 1
+            );
+            if (index > -1) {
+                occupiedPositions.splice(index, 1);
+            }
+        }
+
         // 生成随机背景颜色
         function getRandomBackgroundColor() {
             // 预定义一些好看的颜色（暖色调和冷色调）
@@ -655,13 +707,13 @@ VR带看功能
                 { r: 199, g: 21, b: 133 },    // 中紫红
                 { r: 106, g: 90, b: 205 },    // 石板蓝
             ];
-            
+
             // 随机选择一个颜色
             const color = colors[Math.floor(Math.random() * colors.length)];
-            
+
             // 设置透明度（0.75-0.85之间，确保文字清晰可见）
             const opacity = 0.75 + Math.random() * 0.1;
-            
+
             return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
         }
 
@@ -673,32 +725,17 @@ VR带看功能
             const requirementEl = document.createElement('div');
             requirementEl.className = 'requirement-item';
             requirementEl.textContent = requirement.text;
-            
+
             // 设置随机背景颜色
             const randomBgColor = getRandomBackgroundColor();
             requirementEl.style.background = randomBgColor;
 
             const volcano = getVolcanoPosition();
 
-            // 随机散落位置（火山两侧）
-            const margin = 150;
-            const volcanoX = volcano.x;
-            const screenWidth = window.innerWidth;
-
-            // 随机选择左侧或右侧
-            const side = Math.random() > 0.5 ? 'right' : 'left';
-
-            let landX;
-            if (side === 'left') {
-                // 左侧：从左边距到火山左侧
-                landX = margin + Math.random() * (volcanoX - margin * 2);
-            } else {
-                // 右侧：从火山右侧到右边距
-                landX = volcanoX + margin + Math.random() * (screenWidth - volcanoX - margin * 2);
-            }
-
-            // 落地位置与火山口同一水平面
-            const landY = volcano.y;
+            // 生成不重叠的散落位置（屏幕各处）
+            const landingPos = generateNonOverlappingPosition(occupiedPositions);
+            const landX = landingPos.x;
+            const landY = landingPos.y;
 
             // 落地后的水平倾斜角度（小幅度的不水平，-10到10度）
             const finalRotation = (Math.random() - 0.5) * 20; // -10到10度
@@ -725,9 +762,9 @@ VR带看功能
             const distance = Math.abs(endX - startX);
             const horizontalDirection = endX > startX ? 1 : -1;
 
-            // 抛物线最高点高度（根据距离调整，距离越远高度越高）
-            const baseHeight = Math.min(300, distance * 0.5);
-            const peakHeight = baseHeight + 150 + Math.random() * 200; // 250-650px
+            // 计算从火山口到窗口顶部的距离（最高点要达到窗口顶部）
+            const topY = 0; // 窗口顶部
+            const peakHeight = startY - topY; // 从火山口到窗口顶部的距离
 
             // 随机弯曲强度（让每条线有不同的弯曲程度）
             const curveIntensity = 0.4 + Math.random() * 0.5; // 0.4-0.9
@@ -736,14 +773,19 @@ VR带看功能
             // 弯曲方向（随机左右弯曲）
             const curveDirection = Math.random() > 0.5 ? 1 : -1;
 
-            // 贝塞尔曲线控制点（创建自然的S型弯曲）
-            // 控制点1：上升阶段的弯曲点（在轨迹的1/4处，偏向一侧）
-            const cp1X = startX + (endX - startX) * 0.2 + sideCurve * curveIntensity * curveDirection;
-            const cp1Y = startY - peakHeight * 0.8;
+            // 贝塞尔曲线控制点（创建自然的S型弯曲，最高点达到窗口顶部）
+            // 为了确保最高点达到窗口顶部，让控制点的Y坐标设置为窗口顶部或稍高
+            const peakOffset = Math.random() * 20; // 0-20px的随机偏移，让最高点稍微变化
 
-            // 控制点2：下降阶段的弯曲点（在轨迹的3/4处，偏向另一侧，形成S型）
-            const cp2X = startX + (endX - startX) * 0.8 - sideCurve * curveIntensity * curveDirection * 0.6;
-            const cp2Y = startY - peakHeight * 0.4;
+            // 控制点1：上升阶段的弯曲点（在轨迹的1/3处，偏向一侧）
+            const cp1X = startX + (endX - startX) * 0.3 + sideCurve * curveIntensity * curveDirection;
+            // 让控制点1的Y坐标设置为窗口顶部或稍高，确保最高点达到窗口顶部
+            const cp1Y = topY - peakOffset; // 窗口顶部或稍高
+
+            // 控制点2：下降阶段的弯曲点（在轨迹的2/3处，偏向另一侧，形成S型）
+            const cp2X = startX + (endX - startX) * 0.7 - sideCurve * curveIntensity * curveDirection * 0.6;
+            // 控制点2的Y坐标也设置为窗口顶部附近，确保最高点达到窗口顶部
+            const cp2Y = topY - peakOffset * 0.5; // 窗口顶部附近，稍低一点形成下降
 
             // 使用requestAnimationFrame实现平滑弯曲轨迹动画
             const startTime = Date.now();
@@ -798,16 +840,17 @@ VR带看功能
                     // 确保落地后完全水平（90度 + 小幅倾斜）
                     requirementEl.style.transform = `translate(-50%, -50%) rotate(${targetRotation}deg)`;
 
-                    // 落地后1秒淡出
+                    // 落地后10秒淡出
                     setTimeout(() => {
                         requirementEl.style.transition = 'opacity 1s ease-out';
                         requirementEl.style.opacity = '0';
 
-                        // 淡出完成后移除元素
+                        // 淡出完成后移除元素并清理位置记录
                         setTimeout(() => {
+                            removeOccupiedPosition(landX, landY);
                             requirementEl.remove();
                         }, 1000);
-                    }, 1000);
+                    }, 10000);
                 }
             }
 
@@ -838,8 +881,8 @@ VR带看功能
             });
         }
 
-        // 每3秒喷发一次
-        setInterval(eruptRequirement, 3000);
+        // 每7秒喷发一次
+        setInterval(eruptRequirement, 7000);
 
         // 立即喷发第一个
         setTimeout(eruptRequirement, 500);
