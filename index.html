@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目需求火山喷发</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* 标题背景层 */
+        .title-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            padding: 40px;
+            opacity: 0.2;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .title-item {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 25px 35px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            white-space: nowrap;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 火山容器 */
+        .volcano-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 250px;
+            z-index: 10;
+            filter: drop-shadow(0 -5px 15px rgba(0, 0, 0, 0.5));
+        }
+
+        /* 火山主体 - 使用渐变和阴影增强立体感 */
+        .volcano {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 200px;
+            background: linear-gradient(to right,
+                    #654321 0%,
+                    #8B4513 20%,
+                    #A0522D 40%,
+                    #8B4513 60%,
+                    #654321 80%,
+                    #5C4033 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            filter: drop-shadow(2px 0 8px rgba(0, 0, 0, 0.4));
+        }
+
+        /* 火山左侧阴影（增强立体感） */
+        .volcano-shadow-left {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 200px;
+            background: linear-gradient(to right,
+                    rgba(60, 40, 20, 0.6) 0%,
+                    transparent 50%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 9;
+        }
+
+        /* 火山表面纹理层 */
+        .volcano-texture {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 180px;
+            background:
+                repeating-linear-gradient(45deg,
+                    transparent 0px,
+                    rgba(139, 69, 19, 0.3) 2px,
+                    transparent 4px),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px,
+                    rgba(101, 67, 33, 0.2) 3px,
+                    transparent 6px);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+            opacity: 0.4;
+        }
+
+        /* 火山岩石细节 */
+        .volcano-rock {
+            position: absolute;
+            background: #5C4033;
+            border-radius: 3px;
+            z-index: 10;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .volcano-rock:nth-child(1) {
+            width: 15px;
+            height: 12px;
+            bottom: 50px;
+            left: 45%;
+            transform: rotate(25deg);
+        }
+
+        .volcano-rock:nth-child(2) {
+            width: 12px;
+            height: 10px;
+            bottom: 80px;
+            left: 52%;
+            transform: rotate(-15deg);
+        }
+
+        .volcano-rock:nth-child(3) {
+            width: 18px;
+            height: 14px;
+            bottom: 120px;
+            left: 48%;
+            transform: rotate(40deg);
+        }
+
+        /* 火山口外圈 */
+        .volcano-crater-outer {
+            position: absolute;
+            bottom: 175px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 40px;
+            background: radial-gradient(ellipse,
+                    rgba(44, 24, 16, 0.8) 0%,
+                    rgba(20, 10, 5, 0.9) 70%,
+                    rgba(10, 5, 2, 1) 100%);
+            border-radius: 50%;
+            z-index: 11;
+            box-shadow:
+                inset 0 2px 10px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 火山口 */
+        .volcano-crater {
+            position: absolute;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 30px;
+            background: radial-gradient(ellipse,
+                    #1a0f0a 0%,
+                    #0d0705 50%,
+                    #000000 100%);
+            border-radius: 50%;
+            z-index: 12;
+            box-shadow:
+                inset 0 3px 15px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 火山口内部（岩浆） */
+        .volcano-lava {
+            position: absolute;
+            bottom: 185px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: radial-gradient(ellipse,
+                    #FF6B35 0%,
+                    #FF4500 30%,
+                    #FF6347 50%,
+                    #DC143C 70%,
+                    #8B0000 100%);
+            border-radius: 50%;
+            z-index: 13;
+            animation: lava-glow 2s ease-in-out infinite;
+            box-shadow:
+                0 0 20px #FF4500,
+                0 0 40px #FF6347,
+                inset 0 2px 10px rgba(255, 69, 0, 0.8);
+        }
+
+        /* 岩浆气泡效果 */
+        .lava-bubble {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            animation: bubble-rise 3s ease-in-out infinite;
+            z-index: 14;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+        }
+
+        .lava-bubble:nth-child(1) {
+            left: 48%;
+            bottom: 190px;
+            animation-delay: 0s;
+        }
+
+        .lava-bubble:nth-child(2) {
+            left: 51%;
+            bottom: 188px;
+            animation-delay: 1s;
+            width: 6px;
+            height: 6px;
+        }
+
+        .lava-bubble:nth-child(3) {
+            left: 49%;
+            bottom: 192px;
+            animation-delay: 2s;
+            width: 7px;
+            height: 7px;
+        }
+
+        @keyframes bubble-rise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.5);
+            }
+        }
+
+        /* 火山烟雾 */
+        .volcano-smoke {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle,
+                    rgba(100, 100, 100, 0.6) 0%,
+                    rgba(80, 80, 80, 0.4) 50%,
+                    transparent 100%);
+            border-radius: 50%;
+            z-index: 8;
+            animation: smoke-rise 4s ease-out infinite;
+        }
+
+        .volcano-smoke:nth-child(2) {
+            width: 50px;
+            height: 50px;
+            bottom: 210px;
+            left: 48%;
+            animation-delay: 1s;
+        }
+
+        .volcano-smoke:nth-child(3) {
+            width: 35px;
+            height: 35px;
+            bottom: 205px;
+            left: 52%;
+            animation-delay: 2s;
+        }
+
+        @keyframes smoke-rise {
+            0% {
+                opacity: 0.6;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: translateX(-50%) translateY(-30px) scale(1.5);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-60px) scale(2);
+            }
+        }
+
+        @keyframes lava-glow {
+
+            0%,
+            100% {
+                opacity: 0.9;
+                box-shadow:
+                    0 0 15px #FF4500,
+                    0 0 30px #FF6347,
+                    inset 0 2px 10px rgba(255, 69, 0, 0.8);
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow:
+                    0 0 25px #FF4500,
+                    0 0 50px #FF6347,
+                    0 0 70px #FF8C00,
+                    inset 0 2px 15px rgba(255, 69, 0, 1);
+            }
+        }
+
+        /* 需求项容器 */
+        .requirement-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .requirement-item {
+            position: absolute;
+            font-size: 16px;
+            color: #fff;
+            padding: 15px 8px;
+            background: rgba(255, 69, 0, 0.9);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 6;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 2px;
+            line-height: 1.4;
+        }
+
+        /* 喷发动画通过JavaScript动态设置 */
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title-background" id="titleBackground"></div>
+    <div class="requirement-container" id="requirementContainer"></div>
+
+    <div class="volcano-container">
+        <!-- 烟雾效果 -->
+        <div class="volcano-smoke"></div>
+        <div class="volcano-smoke"></div>
+        <div class="volcano-smoke"></div>
+
+        <!-- 火山阴影层 -->
+        <div class="volcano-shadow-left"></div>
+
+        <!-- 火山主体 -->
+        <div class="volcano"></div>
+
+        <!-- 火山表面纹理 -->
+        <div class="volcano-texture"></div>
+
+        <!-- 火山岩石细节 -->
+        <div class="volcano-rock"></div>
+        <div class="volcano-rock"></div>
+        <div class="volcano-rock"></div>
+
+        <!-- 火山口外圈 -->
+        <div class="volcano-crater-outer"></div>
+
+        <!-- 火山口 -->
+        <div class="volcano-crater"></div>
+
+        <!-- 火山口内部（岩浆） -->
+        <div class="volcano-lava"></div>
+
+        <!-- 岩浆气泡 -->
+        <div class="lava-bubble"></div>
+        <div class="lava-bubble"></div>
+        <div class="lava-bubble"></div>
+    </div>
+
+    <script>
+        // 原始文本数据
+        const textData = `权限个性化配置改造（五期迭代）
+  - 一期（2月）：完成个性化配置基础架构设计，实现租户维度配置管理
+  - 二期（2月）：完善角色管理功能，支持权限树查询和权限点修改
+  - 三期（3月）：新增租户维度配置表（source_config、source_access），支持版本标识和权限集自定义
+  - 四期（3月）：优化权限缓存机制，提升权限查询性能
+  - 五期（4月）：完成权限数据迁移脚本，支持租户自定义角色迁移、版本设置、系统角色授权关系迁移
+  技术亮点：
+  - 设计了灵活的权限配置体系，支持租户级别的权限个性化定制
+  - 实现了权限数据的平滑迁移，确保业务连续性
+  - 优化了权限查询性能，通过缓存机制减少数据库压力
+权限系统优化
+  - 权限缓存优化：去除权限生效缓存，优化缓存策略
+  - 权限清理：完成权限数据清理，删除系统角色
+  - 权限分享：实现权限分享功能
+  - 权限操作记录完善：完善权限操作日志记录
+    
+支付系统升级
+- 分期支付接入（11月）：完成Klarna分期支付通道接入，支持海外用户分期购买
+- 0元购及履约（7月）：实现0元订单支付成功后的自动履约流程
+- 苹果内购转钱海支付（5月）：完成支付渠道切换
+  
+订单系统优化
+- 订单对接贝壳开票系统（6月）：
+  - 实现订单发票信息自动同步到贝壳开票系统
+  - 新增发票历史快照表，支持发票冲销和重新开票
+  - 支持人工开票和接口开票两种方式
+- 订单加销售人员（7月）：订单关联销售人员，支持销售业绩统计
+- 订单下单页优化（8月）：优化订单创建流程，提升用户体验
+- 订单折扣兑换逻辑优化（8月）：完善折扣码兑换机制
+  
+礼品卡系统
+- 礼品卡兑换页优化（8月）：新增礼品卡皮肤功能，优化兑换体验
+- 批量修改礼品卡的折扣金额（11月）：支持批量操作，提升运营效率
+- 国内礼品卡支持（7月）：国内支持礼品卡（折扣码）兑换SKU
+  
+其他交易功能
+- 首单优惠（7月）：实现首单优惠功能
+- 管理后台费用中心优化（7月）：优化费用中心展示，增加复购引导
+  
+
+微信登录
+- APP接入微信登录（12月）：完成APP端微信登录功能开发
+- 微信第三方账号绑定（10月）：支持微信账号绑定和解绑
+  
+其他登录方式
+- passport登录（6月）：完成passport登录对接
+- 三方登录国家码（11月）：优化第三方登录的国家码处理
+  
+
+
+VR空间审核
+- VR空间审核流程（12月）：
+  - 实现VR空间内容审核功能
+  - 支持审核状态筛选和审核操作
+  - 优化VR详情页，增加多媒体数据展示
+  - 实现相关推荐功能
+    
+VR收藏与标签
+- VR收藏（2月、3月）：实现VR收藏功能，支持收藏列表查询
+- 标签优化（9月）：跳转类标签同步新标签库并增加动效
+- 标签搜索（3月）：实现标签搜索功能
+- 标签体系优化（2月）：优化标签数据结构和管理逻辑
+- 全景图标签（3月）：支持全景图标签功能
+  
+VR带看功能
+- vrc带看改造（9月）：完成一起看空间（带看）功能改造
+- saas带看（9月）：支持SaaS场景下的带看功能
+- 途家带看（9月）：完成途家带看对接
+- 带看梳理（8月）：梳理带看业务流程
+  
+其他VR功能
+- VR基础数据接口活跃（9月）：增加是否活跃校验配置
+- vr作品集加入sitemap（6月）：优化SEO
+  
+
+
+商品数字化
+- 商品ID数字化（10月）：完成商品详情接口数字ID优化
+- 商品增加设备（11月）：商品支持增加设备信息（庞加莱R1、观复等）
+- 圣象商品增加字段（3月）：圣象商品增加型号筛选接口
+  
+商品履约
+- 商品履约（4月）：完成版本+权限+个性化配置改造下的履约逻辑更新
+- 商品增加发货类型人工服务（9月）：支持人工服务类型商品
+  
+商城优化
+- 商城后端字段对齐钱海（12月）：商品系统字段长度校验对齐钱海
+- 商品履约优化（4月）：优化履约流程
+  
+
+
+云影系统
+- 固件升级管理（5月）：支持固件升级功能，包括APP后端和云影后端
+- APP发版管理（3月、4月）：支持APP发版管理和客户端内更新
+- 云影增加白名单（5月）：支持白名单控制
+- 云影操作日志（5月）：完善操作日志记录
+- 云影线下订单支持取消关闭（7月）：支持线下订单取消和关闭
+- 云影对公转账问题（12月）：解决对公转账相关问题
+  
+海外业务
+- 海外伽罗华邮件召回（11月）：
+  - 实现用户行为统计表（user_galois_action_statistics）
+  - 完成取数筛选机制和EDM自动发送功能
+- 海外测试环境搭建（8月）：完成海外测试环境配置
+- 海外监控报警（5月）：配置海外域名监控报警
+- 海外&阿里云业务系统清理（5月）：完成系统清理工作
+  
+营销与增长
+- 归因数据回传（12月）：完成华为商城、抖音等平台的归因数据回传
+- 定制邀请链接（9月）：支持定制邀请链接用于推广活动
+- 邀请链接邮件（9月）：实现邀请链接邮件发送功能
+  
+第三方对接
+- 丽兹行对接（10月、11月）：
+  - 完成房源信息接口开发
+  - VR链接增加参数透传
+- zoho对接（12月）：完成zoho单点登录对接
+- shopify对接（7月、8月）：完成shopify相关功能对接
+  
+其他功能
+- 独家代理（5月、6月）：实现独家代理功能，支持代理资源分配
+- 楼盘字典接口增加缓存（4月）：优化接口性能
+- 帮助中心搜索（11月）：新增动态模板，支持帮助中心电子书加精列表
+- 文章页面新增翻页功能（8月）：优化文章浏览体验
+- 客户列表导出（10月）：支持客户列表导出功能
+- 子客户列表支持多个（10月）：支持多页显示`;
+
+        // 解析文本数据
+        function parseData(text) {
+            const lines = text.split('\n');
+            const result = {
+                titles: [],
+                requirements: []
+            };
+
+            let currentTitle = '';
+            let currentRequirements = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+
+                // 跳过空行
+                if (!line) continue;
+
+                // 判断是否为标题（不以"-"开头，且不是上一行的子项）
+                if (!line.startsWith('-') && !line.startsWith('  -')) {
+                    // 保存上一个标题的需求
+                    if (currentTitle) {
+                        result.titles.push(currentTitle);
+                        result.requirements.push({
+                            title: currentTitle,
+                            items: [...currentRequirements]
+                        });
+                    }
+
+                    // 开始新的标题
+                    currentTitle = line;
+                    currentRequirements = [];
+                } else {
+                    // 提取需求项（去除"-"和缩进）
+                    const requirement = line.replace(/^[\s-]+/, '').trim();
+                    if (requirement && !requirement.startsWith('技术亮点：')) {
+                        currentRequirements.push(requirement);
+                    }
+                }
+            }
+
+            // 保存最后一个标题
+            if (currentTitle) {
+                result.titles.push(currentTitle);
+                result.requirements.push({
+                    title: currentTitle,
+                    items: [...currentRequirements]
+                });
+            }
+
+            return result;
+        }
+
+        // 初始化
+        const data = parseData(textData);
+        const titleBackground = document.getElementById('titleBackground');
+        const requirementContainer = document.getElementById('requirementContainer');
+
+        let allRequirements = [];
+
+        // 展平所有需求
+        data.requirements.forEach(item => {
+            item.items.forEach(req => {
+                allRequirements.push({
+                    text: req,
+                    title: item.title
+                });
+            });
+        });
+
+        // 渲染标题背景
+        data.titles.forEach(title => {
+            const titleEl = document.createElement('div');
+            titleEl.className = 'title-item';
+            titleEl.textContent = title;
+            titleBackground.appendChild(titleEl);
+        });
+
+        // 火山口位置（屏幕底部中间）
+        const getVolcanoPosition = () => {
+            // 根据CSS，火山口在bottom: 185px的位置（从容器底部算起）
+            // 火山容器底部对齐屏幕底部
+            return {
+                x: window.innerWidth / 2,
+                y: window.innerHeight - 185 // 火山口位置
+            };
+        };
+
+        // 生成随机背景颜色
+        function getRandomBackgroundColor() {
+            // 预定义一些好看的颜色（暖色调和冷色调）
+            const colors = [
+                { r: 255, g: 69, b: 0 },    // 橙红色
+                { r: 255, g: 140, b: 0 },   // 深橙色
+                { r: 255, g: 165, b: 0 },   // 橙色
+                { r: 220, g: 20, b: 60 },   // 深红色
+                { r: 255, g: 99, b: 71 },   // 番茄红
+                { r: 255, g: 20, b: 147 },   // 深粉红
+                { r: 138, g: 43, b: 226 },   // 蓝紫色
+                { r: 72, g: 61, b: 139 },    // 深蓝紫色
+                { r: 30, g: 144, b: 255 },   // 蓝色
+                { r: 0, g: 191, b: 255 },     // 深天蓝
+                { r: 32, g: 178, b: 170 },    // 浅海绿
+                { r: 50, g: 205, b: 50 },     // 酸橙绿
+                { r: 255, g: 215, b: 0 },     // 金色
+                { r: 255, g: 140, b: 0 },     // 深橙色
+                { r: 199, g: 21, b: 133 },    // 中紫红
+                { r: 106, g: 90, b: 205 },    // 石板蓝
+            ];
+            
+            // 随机选择一个颜色
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // 设置透明度（0.75-0.85之间，确保文字清晰可见）
+            const opacity = 0.75 + Math.random() * 0.1;
+            
+            return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+        }
+
+        // 创建单个需求项并喷发（抛物线轨迹）
+        function createEruptingRequirement(requirement, index, total) {
+            if (!requirement) return;
+
+            // 创建需求项元素
+            const requirementEl = document.createElement('div');
+            requirementEl.className = 'requirement-item';
+            requirementEl.textContent = requirement.text;
+            
+            // 设置随机背景颜色
+            const randomBgColor = getRandomBackgroundColor();
+            requirementEl.style.background = randomBgColor;
+
+            const volcano = getVolcanoPosition();
+
+            // 随机散落位置（火山两侧）
+            const margin = 150;
+            const volcanoX = volcano.x;
+            const screenWidth = window.innerWidth;
+
+            // 随机选择左侧或右侧
+            const side = Math.random() > 0.5 ? 'right' : 'left';
+
+            let landX;
+            if (side === 'left') {
+                // 左侧：从左边距到火山左侧
+                landX = margin + Math.random() * (volcanoX - margin * 2);
+            } else {
+                // 右侧：从火山右侧到右边距
+                landX = volcanoX + margin + Math.random() * (screenWidth - volcanoX - margin * 2);
+            }
+
+            // 落地位置与火山口同一水平面
+            const landY = volcano.y;
+
+            // 落地后的水平倾斜角度（小幅度的不水平，-10到10度）
+            const finalRotation = (Math.random() - 0.5) * 20; // -10到10度
+
+            // 初始位置在火山口
+            requirementEl.style.position = 'absolute';
+            requirementEl.style.left = volcano.x + 'px';
+            requirementEl.style.top = volcano.y + 'px';
+            requirementEl.style.transform = 'translate(-50%, -50%)';
+            requirementEl.style.opacity = '1';
+
+            requirementContainer.appendChild(requirementEl);
+
+            // 计算飞行时间（2.5-3.5秒随机）
+            const flightTime = 2500 + Math.random() * 1000;
+
+            // 轨迹参数
+            const startX = volcano.x;
+            const startY = volcano.y;
+            const endX = landX;
+            const endY = landY;
+
+            // 计算距离和方向
+            const distance = Math.abs(endX - startX);
+            const horizontalDirection = endX > startX ? 1 : -1;
+
+            // 抛物线最高点高度（根据距离调整，距离越远高度越高）
+            const baseHeight = Math.min(300, distance * 0.5);
+            const peakHeight = baseHeight + 150 + Math.random() * 200; // 250-650px
+
+            // 随机弯曲强度（让每条线有不同的弯曲程度）
+            const curveIntensity = 0.4 + Math.random() * 0.5; // 0.4-0.9
+            const sideCurve = (Math.random() - 0.5) * 100; // 左右弯曲幅度（-50到50）
+
+            // 弯曲方向（随机左右弯曲）
+            const curveDirection = Math.random() > 0.5 ? 1 : -1;
+
+            // 贝塞尔曲线控制点（创建自然的S型弯曲）
+            // 控制点1：上升阶段的弯曲点（在轨迹的1/4处，偏向一侧）
+            const cp1X = startX + (endX - startX) * 0.2 + sideCurve * curveIntensity * curveDirection;
+            const cp1Y = startY - peakHeight * 0.8;
+
+            // 控制点2：下降阶段的弯曲点（在轨迹的3/4处，偏向另一侧，形成S型）
+            const cp2X = startX + (endX - startX) * 0.8 - sideCurve * curveIntensity * curveDirection * 0.6;
+            const cp2Y = startY - peakHeight * 0.4;
+
+            // 使用requestAnimationFrame实现平滑弯曲轨迹动画
+            const startTime = Date.now();
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / flightTime, 1);
+
+                // 使用三次贝塞尔曲线计算位置，创建弯曲效果
+                // B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
+                const t = progress;
+                const t2 = t * t;
+                const t3 = t2 * t;
+                const mt = 1 - t;
+                const mt2 = mt * mt;
+                const mt3 = mt2 * mt;
+
+                // 贝塞尔曲线计算
+                const currentX = mt3 * startX + 3 * mt2 * t * cp1X + 3 * mt * t2 * cp2X + t3 * endX;
+                const currentY = mt3 * startY + 3 * mt2 * t * cp1Y + 3 * mt * t2 * cp2Y + t3 * endY;
+
+                requirementEl.style.left = currentX + 'px';
+                requirementEl.style.top = currentY + 'px';
+
+                // 计算切线角度，让文字沿着曲线方向
+                // 使用贝塞尔曲线的导数来计算切线方向
+                // B'(t) = 3(1-t)²(P₁-P₀) + 6(1-t)t(P₂-P₁) + 3t²(P₃-P₂)
+                const dx = 3 * mt2 * (cp1X - startX) + 6 * mt * t * (cp2X - cp1X) + 3 * t2 * (endX - cp2X);
+                const dy = 3 * mt2 * (cp1Y - startY) + 6 * mt * t * (cp2Y - cp1Y) + 3 * t2 * (endY - cp2Y);
+
+                // 计算角度（弧度转角度）
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+                // 竖直文字需要旋转90度来匹配曲线方向
+                let rotation = angle + 90;
+
+                // 在接近落地时（progress > 0.85），逐渐过渡到水平方向
+                // 水平方向对于竖直文字来说是90度，加上小幅倾斜
+                const targetRotation = 90 + finalRotation;
+
+                if (progress > 0.85) {
+                    const landingProgress = (progress - 0.85) / 0.15; // 0到1
+                    // 从曲线角度平滑过渡到水平角度（90度 + 小幅倾斜）
+                    rotation = rotation * (1 - landingProgress) + targetRotation * landingProgress;
+                }
+
+                requirementEl.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // 确保落地后完全水平（90度 + 小幅倾斜）
+                    requirementEl.style.transform = `translate(-50%, -50%) rotate(${targetRotation}deg)`;
+
+                    // 落地后1秒淡出
+                    setTimeout(() => {
+                        requirementEl.style.transition = 'opacity 1s ease-out';
+                        requirementEl.style.opacity = '0';
+
+                        // 淡出完成后移除元素
+                        setTimeout(() => {
+                            requirementEl.remove();
+                        }, 1000);
+                    }, 1000);
+                }
+            }
+
+            // 添加随机延迟，让喷发更自然（0-200ms）
+            setTimeout(() => {
+                requestAnimationFrame(animate);
+            }, index * 50 + Math.random() * 100);
+        }
+
+        // 创建需求项并喷发（每次5-10条）
+        function eruptRequirement() {
+            if (allRequirements.length === 0) return;
+
+            // 随机选择5-10条需求
+            const count = 5 + Math.floor(Math.random() * 6); // 5-10条
+            const selectedRequirements = [];
+
+            // 随机选择不重复的需求
+            const availableReqs = [...allRequirements];
+            for (let i = 0; i < count && availableReqs.length > 0; i++) {
+                const randomIndex = Math.floor(Math.random() * availableReqs.length);
+                selectedRequirements.push(availableReqs.splice(randomIndex, 1)[0]);
+            }
+
+            // 同时喷发所有选中的需求
+            selectedRequirements.forEach((req, index) => {
+                createEruptingRequirement(req, index, count);
+            });
+        }
+
+        // 每3秒喷发一次
+        setInterval(eruptRequirement, 3000);
+
+        // 立即喷发第一个
+        setTimeout(eruptRequirement, 500);
+    </script>
+</body>
+
+</html>
