@@ -366,18 +366,6 @@
             line-height: 1.4;
             font-weight: 500;
         }
-
-        /* 喷发动画通过JavaScript动态设置 */
-
-        @keyframes fade-out {
-            0% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 
@@ -840,7 +828,7 @@ VR带看功能
                     // 确保落地后完全水平（90度 + 小幅倾斜）
                     requirementEl.style.transform = `translate(-50%, -50%) rotate(${targetRotation}deg)`;
 
-                    // 落地后10秒淡出
+                    // 落地后30秒淡出
                     setTimeout(() => {
                         requirementEl.style.transition = 'opacity 1s ease-out';
                         requirementEl.style.opacity = '0';
@@ -850,7 +838,7 @@ VR带看功能
                             removeOccupiedPosition(landX, landY);
                             requirementEl.remove();
                         }, 1000);
-                    }, 10000);
+                    }, 30000);
                 }
             }
 
